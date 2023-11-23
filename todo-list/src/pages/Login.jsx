@@ -12,11 +12,12 @@ function Login() {
     const [ loginData, setLoginData ] = useState({ email: '', password: ''});
 
     const navigate = useNavigate();
-    const getLogin = async () => {
+    const getLogin = async (e) => {
+      e.preventDefault();
         try {
             await authStore.login(loginData);
             //se o login der OK
-            navigate('/Todo') //colocar instancia
+            navigate('/home'); //colocar instancia
         } catch (err) {
             console.log(err);
         }
@@ -28,11 +29,10 @@ function Login() {
         <div className="wrap-login">
           <form className="login-form">
             <span className="login-form-title"> Bem vindo </span>
-
             <div className="wrap-input">
               <input
                 className={loginData.email !== "" ? "has-val input" : "input"}
-                type="email"
+                type="text"
                 value={loginData.email}
                 onChange={(e) => setLoginData({...loginData, email: e.target.value})}
               />
@@ -55,9 +55,9 @@ function Login() {
 
             <div className="text-center">
               <span className="txt1">Não possui conta? </span>
-              <a className="txt2" to="/Register">
+              <Link className="txt2" to="/register">
                 Criar conta
-              </a>
+              </Link>
             </div>
           </form>
         </div>

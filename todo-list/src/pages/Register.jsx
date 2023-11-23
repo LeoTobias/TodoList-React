@@ -1,19 +1,22 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { LayoutComponents } from "./Layout";
+import authStore from "../authStore";
 
+
+import "../assets/Register.css";
 
 
 export const Register = () => {
     const [userData, setUserData] = useState({
-        email: '',
-        password: '',
-        name: ''
+          email: '',
+          password: ''
     });
 
-    const getSubmit = async () => {
-        try {
-            await authStore.register(userData);
+    const getSubmit = async (e) => {
+      e.preventDefault();
+      try {
+        await authStore.register(userData);
             setUserData({email: '', password: ''});
         } catch (err) {
             console.log(err);
@@ -27,26 +30,16 @@ export const Register = () => {
 
         <div className="wrap-input">
           <input
-            type="name"
-            value={userData.name}
-            onChange={(e) => setUserData({...userData, name: e.target.value})}
-          />
-          <span className="focus-input" data-placeholder="Nome"></span>
-        </div>
-
-        <div className="wrap-input">
-          <input
-            className={email !== "" ? "has-val input" : "input"}
-            type="email"
+            className={userData.email !== "" ? "has-val input" : "input"}
+            type="text"
             value={userData.email}
             onChange={(e) => setUserData({...userData, email: e.target.value})}
           />
           <span className="focus-input" data-placeholder="Email"></span>
         </div>
-
         <div className="wrap-input">
           <input
-            className={password !== "" ? "has-val input" : "input"}
+            className={userData.password !== "" ? "has-val input" : "input"}
             type="password"
             value={userData.password}
             onChange={(e) => setUserData({...userData, password: e.target.value})}
@@ -60,10 +53,12 @@ export const Register = () => {
 
         <div className="text-center">
           <span className="txt1">Já possui conta? </span>
-          <Link className="txt2" to="/login">
+          <Link className="txt2" to="/">
             Acessar com Email e Senha.
           </Link>
         </div>
+        
+       
       </form>
     </LayoutComponents>
   )

@@ -1,5 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import axios from "axios";
+import { useNavigate } from 'react-router-dom';
 
 class AuthStore {
     isAuthenticated = false;
@@ -8,23 +9,22 @@ class AuthStore {
         makeAutoObservable(this);
     }
 
-    async Register(userData) {
+    async register(userData) {
         try {
-            const res = await axios.post(`https://fir-36bf1-default-rtdb.firebaseio.com/users/${userData.email}.json`, userData); //modificar a lógica
+            const res = await axios.put(`https://react-auth-db54a-default-rtdb.firebaseio.com/${userData.email}.json`, userData); //modificar a lógica
             return res.data;
         } catch (err) {
             console.log(err);
         }
     }
 
-    async Login(userData) {
+    async login(userData) {
         try {
-            const res = await axios.get(`https://fir-36bf1-default-rtdb.firebaseio.com/users/${userData.email}.json`, userData); //dados do email
+            const res = await axios.get(`https://react-auth-db54a-default-rtdb.firebaseio.com/${userData.email}.json`, userData); //dados do email
             const user = Object.entries(res.data); //pega os dados
-
-            if(user[0][1].password === userData.password) { //verifica as credencciais
+            if(user[1][1] === userData.password) { //verifica as credencciais
                 this.isAuthenticated = true; //mandar os dados para o fire e verifica as credenciais
-                return user; //retorna o que foi encontrado
+                navigate("/home"); //retorna o que foi encontrado
             } else {
                 alert('Inválidos');
             }

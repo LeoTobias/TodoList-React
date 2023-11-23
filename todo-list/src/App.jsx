@@ -15,7 +15,8 @@ import Register from "./pages/Register";
 import "./assets/Login.css";
 import "./assets/Todo.css";
 
-const App = () => {
+
+const App = observer(() => {
   
 
   return (
@@ -24,6 +25,6 @@ const App = () => {
       <Register />
     </div>
   );
-};
+});
 
 export default App;

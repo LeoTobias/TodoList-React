@@ -2,7 +2,7 @@ body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
   padding: 20px;
-  color: #333;
+  color: #efefef;
   background-image: url("./img/bgg.jpg");
   background-size: cover;
   background-position: center;
@@ -13,7 +13,7 @@ body {
   margin: 0 auto;
   padding: 0.5rem 2rem;
   border-radius: 10px;
-  background-color: #efefef;
+  background-color: #333;
 }
 
 h1 {
@@ -26,6 +26,7 @@ h2 {
 
 p {
   margin: 10px 0;
+  color: #333;
 }
 
 input {
@@ -51,7 +52,7 @@ input {
 
 .todo .category {
   font-size: 0.8em;
-  color: #888;
+  color: #fff;
 }
 
 button {
