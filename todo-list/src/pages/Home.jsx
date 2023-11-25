@@ -1,6 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getFirestore } from "firebase/firestore";
 import { observer } from "mobx-react-lite";
+import { db } from '../services/firebaseConfig';
+import {
+  query,
+  collection,
+  onSnapshot,
+  updateDoc,
+  doc,
+  addDoc,
+  deleteDoc,
+} from 'firebase/firestore';
 
 import Todo from "../components/Todo";
 import Search from "../components/Search";
@@ -11,22 +21,37 @@ import TodoForm from "../components/TodoForm";
 import "../assets/Todo.css";
 
 export const Home = () => {
-    const [todos, setTodos] = useState([
-        {
-          id: 1,
-          text: "Criar funcionalidade X no sistema",
-          category: "Trabalho",
-          isCompleted: false,
-        },
-        { id: 2,text: "Ir para a academia", category: "Pessoal", isCompleted: false },
-        {
-          id: 3,
-          text: "Estudar React",
-          category: "Estudos",
-          isCompleted: false,
-        },
-      ]);
-    
+      const [todos, setTodos] = useState([]);
+
+       // Read todo from firebase
+      useEffect(() => {
+        const q = query(collection(db, 'TodoList'));
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          let todosArr = [];
+          querySnapshot.forEach((doc) => {
+            todosArr.push({ ...doc.data(), id: doc.id });
+          });
+          setTodos(todosArr);
+        });
+        return () => unsubscribe();
+      }, []);
+
+
+
+       // Update todo in firebase
+      const toggleComplete = async (todo) => {
+        await updateDoc(doc(db, 'TodoList', todo.id), {
+          completed: !todo.completed,
+        });
+      };
+
+      // Delete todo
+      const deleteTodo = async (id) => {
+        await deleteDoc(doc(db, 'TodoList', id));
+      };
+
+
+      //Filtro
       const [filter, setFilter] = useState("All");
       const [sort, setSort] = useState("Asc");
     
@@ -34,22 +59,11 @@ export const Home = () => {
     
       const addTodo = (text, category) => {
         const newTodos = [...todos, 
-          { id: Math.floor(Math.random() * 1000), text, category, isCompleted: false }
+          { id: Math.floor(Math.random() * 1000), text, category, completed: false }
         ];
         setTodos(newTodos);
       };
     
-      const removeTodo = (id) => {
-        const newTodos = [...todos];
-        const filteredTodos = newTodos.filter((todo) => todo.id !== id ?  todo : null)
-        setTodos(filteredTodos);
-      };
-    
-      const completeTodo = (id) => {
-        const newTodos = [...todos];
-        newTodos.map((todo) => todo.id === id ?  todo.isCompleted = !todo.isCompleted : todo)
-        setTodos(newTodos);
-      };
     
       return (
         <div className="app">
@@ -62,11 +76,8 @@ export const Home = () => {
                 filter === "All"
                   ? true
                   : filter === "Completed"
-                  ? todo.isCompleted
-                  : !todo.isCompleted
-              )
-              .filter((todo) =>
-                todo.text.toLowerCase().includes(search.toLowerCase())
+                  ? todo.completed
+                  : !todo.completed
               )
               .sort((a, b) =>
                 sort === "Asc"
@@ -78,8 +89,8 @@ export const Home = () => {
                   key={index}
                   index={index}
                   todo={todo}
-                  completeTodo={completeTodo}
-                  removeTodo={removeTodo}
+                  toggleComplete={toggleComplete}
+                  deleteTodo={deleteTodo}
                 />
               ))}
           </div>

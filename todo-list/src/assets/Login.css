@@ -71,6 +71,10 @@ body, html {
   font-family: Nunito, sans-serif;
 }
 
+.input[type="text"] {
+  border: none;
+}
+
 .focus-input {
   position: absolute;
   display: block;

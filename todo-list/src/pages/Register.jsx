@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 import { LayoutComponents } from "./Layout";
 import authStore from "../authStore";
@@ -8,6 +8,7 @@ import "../assets/Register.css";
 
 
 export const Register = () => {
+    const navigate = useNavigate();
     const [userData, setUserData] = useState({
           email: '',
           password: ''
@@ -17,7 +18,7 @@ export const Register = () => {
       e.preventDefault();
       try {
         await authStore.register(userData);
-            setUserData({email: '', password: ''});
+            navigate('/');
         } catch (err) {
             console.log(err);
         }

@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 class AuthStore {
     isAuthenticated = false;
@@ -18,15 +18,27 @@ class AuthStore {
         }
     }
 
-    async login(userData) {
+    async login(userData, navigate) {
         try {
-            const res = await axios.get(`https://react-auth-db54a-default-rtdb.firebaseio.com/${userData.email}.json`, userData); //dados do email
-            const user = Object.entries(res.data); //pega os dados
-            if(user[1][1] === userData.password) { //verifica as credencciais
-                this.isAuthenticated = true; //mandar os dados para o fire e verifica as credenciais
-                navigate("/home"); //retorna o que foi encontrado
+
+            if (!userData.email || !userData.password) {
+                alert('Por favor, forneça um email e senha válidos');
+                return;
+            }
+
+            const res = await axios.get(`https://react-auth-db54a-default-rtdb.firebaseio.com/${userData.email}.json`, userData);
+    
+            if (res.data) {
+                const user = Object.entries(res.data);
+    
+                if (user[1] && user[1][1] === userData.password) {
+                    this.isAuthenticated = true;
+                    navigate('/Home');
+                } else {
+                    alert('Credenciais inválidas');
+                }
             } else {
-                alert('Inválidos');
+                alert('Usuário não encontrado');
             }
         } catch (err) {
             console.log(err);

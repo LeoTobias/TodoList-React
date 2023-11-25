@@ -23,6 +23,7 @@ const App = observer(() => {
     <div className="app">
       <Login />
       <Register />
+      <Home />
     </div>
   );
 });
