@@ -57,9 +57,7 @@ export const Register = () => {
           <Link className="txt2" to="/">
             Acessar com Email e Senha.
           </Link>
-        </div>
-        
-       
+        </div>  
       </form>
     </LayoutComponents>
   )

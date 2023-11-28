@@ -79,6 +79,9 @@ export const Home = () => {
                   ? todo.completed
                   : !todo.completed
               )
+              .filter((todo) =>
+                todo.text.toLowerCase().includes(search.toLowerCase())
+              )
               .sort((a, b) =>
                 sort === "Asc"
                   ? a.text.localeCompare(b.text)

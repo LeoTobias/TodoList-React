@@ -34,7 +34,7 @@ const TodoForm = ({ addTodo }) => {
   return (
     <div className='todo-form'>
         <h2>Criar Tarefa:</h2>
-        <form onSubmit={createTodo}>
+        <form onSubmit={createTodo}>  
             <input 
                 value = {input}
                 onChange={(e) => setInput(e.target.value)} 

@@ -1,7 +1,6 @@
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
-  padding: 20px;
   color: #efefef;
   background-image: url("./img/bgg.jpg");
   background-size: cover;
@@ -12,6 +11,8 @@ body {
   max-width: 600px;
   margin: 0 auto;
   padding: 0.5rem 2rem;
+  margin-top: 25px;
+  margin-bottom: 25px;
   border-radius: 10px;
   background-color: #333;
 }
