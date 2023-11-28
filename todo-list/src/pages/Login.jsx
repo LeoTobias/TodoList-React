@@ -23,7 +23,7 @@ function Login() {
       <div className="container-login">
         <div className="wrap-login">
           <form className="login-form" onSubmit={getLogin}>
-            <span className="login-form-title"> Bem vindo </span>
+            <span className="login-form-title"> Bem vindo </span><br /><br />
             <div className="wrap-input">
               <input
                 className={loginData.email !== "" ? "has-val input" : "input"}
